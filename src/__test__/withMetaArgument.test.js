@@ -1,10 +1,10 @@
-import withMeta from '../index';
+import { withMetaArgument } from '../index';
 
 describe('index', () => {
     it('should add meta to an action', () => {
         const myAction = (a, b) => ({ type: "AN_OPERATION", payload: a+b });
-        const myActionWithMeta = withMeta({info: "this is a sum"})(myAction);
-        const result = myActionWithMeta(2,3);
+        const myActionWithMeta = withMetaArgument(myAction);
+        const result = myActionWithMeta(2, 3, {info: "this is a sum"});
 
         expect(result).toEqual({
             type: "AN_OPERATION",
@@ -28,9 +28,9 @@ describe('index', () => {
             }
         }
         
-        const myThunkActionWithMeta = withMeta({info: "this is a sum"})(myThunkAction);
+        const myThunkActionWithMeta = withMetaArgument(myThunkAction);
         
-        const result = myThunkActionWithMeta(2,3)(fakeDispatcher);
+        const result = myThunkActionWithMeta(2, 3, {info: "this is a sum"})(fakeDispatcher);
         expect(dispatchedValue).toEqual({
             type: "AN_OPERATION",
             payload: 5,
